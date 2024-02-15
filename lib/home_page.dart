@@ -15,10 +15,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _receivePort = ReceivePort();
+  SendPort? homePort;
+
+  @override
+  void initState() {
+    super.initState();
+    if (homePort != null) return;
+    final res = IsolateNameServer.registerPortWithName(
+      _receivePort.sendPort,
+      'HOME',
+    );
+    log("오버레이 포트 등록상태 : $res");
+
+    _receivePort.listen((message) async {
+      log("오버레이에서 보내온 메세지: $message");
+      await Clipboard.setData(ClipboardData(text: message)).then((value) => log('복사완료'));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('남스 바코드 헬퍼'),
@@ -54,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                         enableDrag: true,
                         overlayTitle: '남스 헬퍼',
                         overlayContent: '남스 헬퍼 실행중',
-                        flag: OverlayFlag.focusPointer,
+                        flag: OverlayFlag.defaultFlag,
                         visibility: NotificationVisibility.visibilityPublic,
                         positionGravity: PositionGravity.auto,
                         height: 300,
