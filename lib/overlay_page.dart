@@ -12,7 +12,7 @@ class _OverlayPageState extends State<OverlayPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey.withOpacity(0.1),
+      color: Colors.grey.withOpacity(0.3),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12.0),

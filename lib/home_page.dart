@@ -17,9 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height * 0.2;
-    int overlayHeight = height.toInt();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         flag: OverlayFlag.focusPointer,
                         visibility: NotificationVisibility.visibilityPublic,
                         positionGravity: PositionGravity.auto,
-                        height: overlayHeight,
+                        height: 300,
                         width: WindowSize.matchParent);
                   },
                   child: const Text('오버레이 켜기')),
