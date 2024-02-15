@@ -31,10 +31,6 @@ class _OverlayPageState extends State<OverlayPage> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black54),
                         shape: BoxShape.circle,
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://api.multiavatar.com/x-slayer.png"),
-                        ),
                       ),
                     ),
                     title: StreamBuilder<dynamic>(
@@ -47,7 +43,6 @@ class _OverlayPageState extends State<OverlayPage> {
                                 fontSize: 20.0, fontWeight: FontWeight.bold),
                           );
                         }),
-                    subtitle: const Text("Sousse , Tunisia"),
                   ),
                   const Spacer(),
                   const Divider(color: Colors.black54),

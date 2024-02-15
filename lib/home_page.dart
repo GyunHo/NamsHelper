@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('남스 바코드 헬퍼'),
+        centerTitle: true,
       ),
       body: Center(
         child: SingleChildScrollView(
