@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                     final isActive = await FlutterOverlayWindow.isActive();
                     if (isActive) return;
                     await FlutterOverlayWindow.showOverlay(
-                      alignment: OverlayAlignment.topCenter,
+                        alignment: OverlayAlignment.topCenter,
                         enableDrag: false,
                         overlayTitle: '남스 헬퍼',
                         overlayContent: '남스 헬퍼 실행중',
@@ -89,8 +89,12 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10.0),
               TextButton(
                 onPressed: () async {
-                  List<String> sendData = ['1','2','3','4'];
-                await FlutterOverlayWindow.shareData(sendData);
+                  List<List<String>> sendData = [
+                    ['1', '2', '3', '4'],
+                    ['4', '5', '6', '7'],
+                    ['8', '9', '10', '11']
+                  ];
+                  await FlutterOverlayWindow.shareData(sendData);
                 },
                 child: const Text("오버레이에 데이터 보내기"),
               ),

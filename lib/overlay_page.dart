@@ -1,9 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
-import 'package:flutter/services.dart';
 
 class OverlayPage extends StatefulWidget {
   const OverlayPage({super.key});
@@ -19,41 +17,39 @@ class _OverlayPageState extends State<OverlayPage> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.grey.withOpacity(0.4),
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: StreamBuilder<dynamic>(
-              stream: FlutterOverlayWindow.overlayListener,
-              builder: (context, snapshot) {
-                data = snapshot.data;
-                return ListView.builder(
-                    itemCount: data?.length??0,
-                    itemBuilder: (BuildContext listContext, int count) {
-                      return ListTile(
-                        leading:
-                        Text(data?[count]),
-                        onTap: () {
-                          SendPort? toHomePort =
-                              IsolateNameServer.lookupPortByName('HOME');
-                          toHomePort?.send('오버레이에서 보냅니다.');
-                        },
-                        trailing: IconButton(
-                          onPressed: () async {
-                            await FlutterOverlayWindow.closeOverlay();
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        width: double.infinity,
+        child: StreamBuilder<dynamic>(
+            stream: FlutterOverlayWindow.overlayListener,
+            builder: (context, snapshot) {
+              data = snapshot.data;
+              return ListView.builder(
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (BuildContext listContext, int count) {
+                    SendPort? toHomePort =
+                        IsolateNameServer.lookupPortByName('HOME');
+                    List<dynamic> showData = data?[count];
+                    List<TextButton> barcodes = showData.map((barcode) {
+                      return TextButton(
+                          onPressed: () {
+                            toHomePort?.send(barcode.toString());
                           },
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.black,
-                          ),
+                          child: Text(
+                            'bar ${barcode.toString()}',
+                            style: TextStyle(color: Colors.red),
+                          ));
+                    }).toList();
+                    return ListTile(
+                      title: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: barcodes,
                         ),
-                      );
-                    });
-              }),
-        ),
+                      ),
+                    );
+                  });
+            }),
       ),
     );
   }
