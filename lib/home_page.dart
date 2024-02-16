@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
     _receivePort.listen((message) async {
       log("오버레이에서 보내온 메세지: $message");
-      await Clipboard.setData(ClipboardData(text: message)).then((value) => log('복사완료'));
+      await Clipboard.setData(ClipboardData(text: message));
     });
   }
 
@@ -68,13 +68,14 @@ class _HomePageState extends State<HomePage> {
                     final isActive = await FlutterOverlayWindow.isActive();
                     if (isActive) return;
                     await FlutterOverlayWindow.showOverlay(
-                        enableDrag: true,
+                      alignment: OverlayAlignment.topCenter,
+                        enableDrag: false,
                         overlayTitle: '남스 헬퍼',
                         overlayContent: '남스 헬퍼 실행중',
-                        flag: OverlayFlag.defaultFlag,
+                        flag: OverlayFlag.focusPointer,
                         visibility: NotificationVisibility.visibilityPublic,
-                        positionGravity: PositionGravity.auto,
-                        height: 300,
+                        positionGravity: PositionGravity.none,
+                        height: 500,
                         width: WindowSize.matchParent);
                   },
                   child: const Text('오버레이 켜기')),
@@ -88,9 +89,8 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10.0),
               TextButton(
                 onPressed: () async {
-                  await Clipboard.setData(
-                      const ClipboardData(text: '클립보드 테스트'));
-                  await FlutterOverlayWindow.shareData('쉐어 데이터 테스트');
+                  List<String> sendData = ['1','2','3','4'];
+                await FlutterOverlayWindow.shareData(sendData);
                 },
                 child: const Text("오버레이에 데이터 보내기"),
               ),

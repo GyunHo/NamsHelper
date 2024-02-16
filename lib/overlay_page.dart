@@ -13,10 +13,12 @@ class OverlayPage extends StatefulWidget {
 }
 
 class _OverlayPageState extends State<OverlayPage> {
+  List<dynamic>? data = [];
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey.withOpacity(0.3),
+      color: Colors.grey.withOpacity(0.4),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -24,54 +26,33 @@ class _OverlayPageState extends State<OverlayPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
           ),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  ListTile(
-                    onTap: () {
-                      SendPort? toHomePort =
-                          IsolateNameServer.lookupPortByName('HOME');
-                      toHomePort?.send('오버레이에서 보냅니다.');
-                    },
-                    leading: Container(
-                      height: 80.0,
-                      width: 80.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black54),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    title: StreamBuilder<dynamic>(
-                        stream: FlutterOverlayWindow.overlayListener,
-                        builder: (context, snapshot) {
-                          String data = snapshot.data.toString();
-                          return Text(
-                            data,
-                            style: const TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          );
-                        }),
-                  ),
-                  const Spacer(),
-                  const Divider(color: Colors.black54),
-                ],
-              ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: IconButton(
-                  onPressed: () async {
-                    await FlutterOverlayWindow.closeOverlay();
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: StreamBuilder<dynamic>(
+              stream: FlutterOverlayWindow.overlayListener,
+              builder: (context, snapshot) {
+                data = snapshot.data;
+                return ListView.builder(
+                    itemCount: data?.length??0,
+                    itemBuilder: (BuildContext listContext, int count) {
+                      return ListTile(
+                        leading:
+                        Text(data?[count]),
+                        onTap: () {
+                          SendPort? toHomePort =
+                              IsolateNameServer.lookupPortByName('HOME');
+                          toHomePort?.send('오버레이에서 보냅니다.');
+                        },
+                        trailing: IconButton(
+                          onPressed: () async {
+                            await FlutterOverlayWindow.closeOverlay();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    });
+              }),
         ),
       ),
     );
