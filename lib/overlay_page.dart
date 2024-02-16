@@ -36,7 +36,7 @@ class _OverlayPageState extends State<OverlayPage> {
                             toHomePort?.send(barcode.toString());
                           },
                           child: Text(
-                            'bar ${barcode.toString()}',
+                            barcode.toString(),
                             style: TextStyle(color: Colors.red),
                           ));
                     }).toList();
