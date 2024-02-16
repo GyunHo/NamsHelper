@@ -17,13 +17,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController textEditingController = TextEditingController();
   final _receivePort = ReceivePort();
-  SendPort? homePort;
+
   bool isGranted = false;
 
   @override
   void initState() {
     super.initState();
-    if (homePort != null) return;
+
     final res = IsolateNameServer.registerPortWithName(
       _receivePort.sendPort,
       'HOME',
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                             enableDrag: false,
                             overlayTitle: '바코드 헬퍼',
                             overlayContent: '바코드 헬퍼 실행중',
-                            flag: OverlayFlag.focusPointer,
+                            flag: OverlayFlag.defaultFlag,
                             visibility: NotificationVisibility.visibilityPublic,
                             positionGravity: PositionGravity.none,
                             height: 500,

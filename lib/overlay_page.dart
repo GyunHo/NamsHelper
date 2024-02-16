@@ -11,6 +11,7 @@ class OverlayPage extends StatefulWidget {
 }
 
 class _OverlayPageState extends State<OverlayPage> {
+  SendPort? toHomePort;
   List<dynamic>? data = [];
 
   @override
@@ -27,13 +28,13 @@ class _OverlayPageState extends State<OverlayPage> {
               return ListView.builder(
                   itemCount: data?.length ?? 0,
                   itemBuilder: (BuildContext listContext, int count) {
-                    SendPort? toHomePort =
-                        IsolateNameServer.lookupPortByName('HOME');
                     List<dynamic> showData = data?[count];
                     List<TextButton> barcodes = showData.map((barcode) {
                       return TextButton(
                           onPressed: () {
-                            toHomePort?.send(barcode.toString());
+                            toHomePort ??=
+                                IsolateNameServer.lookupPortByName('HOME');
+                            toHomePort?.send(barcode);
                           },
                           child: Text(
                             barcode.toString(),
