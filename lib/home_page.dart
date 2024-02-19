@@ -35,12 +35,18 @@ class _HomePageState extends State<HomePage> {
       await Clipboard.setData(ClipboardData(text: message));
     });
   }
+  @override
+  void dispose() {
+    FlutterOverlayWindow.disposeOverlayListener();
+    _receivePort.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('바코드 카피 헬퍼'),
+        title: const Text('Ctrl CV'),
         centerTitle: true,
       ),
       body: Padding(
@@ -86,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                         await FlutterOverlayWindow.showOverlay(
                             alignment: OverlayAlignment.topCenter,
                             enableDrag: false,
-                            overlayTitle: '바코드 헬퍼',
-                            overlayContent: '바코드 헬퍼 실행중',
+                            overlayTitle: 'PASTE HELPER',
+                            overlayContent: 'helper running',
                             flag: OverlayFlag.defaultFlag,
                             visibility: NotificationVisibility.visibilityPublic,
                             positionGravity: PositionGravity.none,
@@ -110,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                 List<List<String>> data = splitText();
                 if (await FlutterOverlayWindow.isPermissionGranted()) {
                   await FlutterOverlayWindow.shareData(data);
+                  textEditingController.clear();
                 }
               },
               child: const Text("오버레이에 데이터 보내기"),
@@ -121,26 +128,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<List<String>> splitText() {
-    Map<String, List<String>> data = {};
+    // Map<String, List<String>> data = {};
     LineSplitter ls = const LineSplitter();
     List<String> lsData = ls.convert(textEditingController.text);
-
-    List<List<String>> res = lsData.map((e) => e.split(' ')).toList();
-    for (List<String> barcodes in res) {
-      data.update(barcodes[1], (value) {
-        List<String> li = value;
-        li.add(barcodes[0]);
-        return li;
-      }, ifAbsent: () {
-        return data[barcodes[1]] = [barcodes[0]];
-      });
-    }
-    List<List<String>> result = [];
-    data.forEach((key, value) {
-      List<String> temp = [key];
-      temp.addAll(value);
-      result.add(temp);
-    });
+    List<List<String>> result = lsData.map((e) => e.split('\t')).toList();
+    // for (List<String> barcodes in res) {
+    //   data.update(barcodes[1], (value) {
+    //     List<String> li = value;
+    //     li.add(barcodes[0]);
+    //     return li;
+    //   }, ifAbsent: () {
+    //     return data[barcodes[1]] = [barcodes[0]];
+    //   });
+    // }
+    // List<List<String>> result = [];
+    // data.forEach((key, value) {
+    //   List<String> temp = [key];
+    //   temp.addAll(value);
+    //   result.add(temp);
+    // });
     return result;
   }
 }
