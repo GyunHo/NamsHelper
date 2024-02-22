@@ -18,8 +18,6 @@ class _HomePageState extends State<HomePage> {
   TextEditingController textEditingController = TextEditingController();
   final _receivePort = ReceivePort();
 
-  bool isGranted = false;
-
   @override
   void initState() {
     super.initState();
@@ -35,6 +33,7 @@ class _HomePageState extends State<HomePage> {
       await Clipboard.setData(ClipboardData(text: message));
     });
   }
+
   @override
   void dispose() {
     FlutterOverlayWindow.disposeOverlayListener();
@@ -116,8 +115,10 @@ class _HomePageState extends State<HomePage> {
                 List<List<String>> data = splitText();
                 if (await FlutterOverlayWindow.isPermissionGranted()) {
                   await FlutterOverlayWindow.shareData(data);
-                  textEditingController.clear();
                 }
+                setState(() {
+                  textEditingController.clear();
+                });
               },
               child: const Text("오버레이에 데이터 보내기"),
             ),
