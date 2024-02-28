@@ -17,7 +17,7 @@ class _OverlayPageState extends State<OverlayPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey.withOpacity(0.4),
+      color: Colors.black.withOpacity(0.4),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         width: double.infinity,
@@ -38,7 +38,7 @@ class _OverlayPageState extends State<OverlayPage> {
                           },
                           child: Text(
                             barcode.toString(),
-                            style: TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Colors.white),
                           ));
                     }).toList();
                     return ListTile(
