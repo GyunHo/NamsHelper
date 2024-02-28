@@ -129,25 +129,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<List<String>> splitText() {
-    // Map<String, List<String>> data = {};
-    LineSplitter ls = const LineSplitter();
-    List<String> lsData = ls.convert(textEditingController.text);
-    List<List<String>> result = lsData.map((e) => e.split('\t')).toList();
-    // for (List<String> barcodes in res) {
-    //   data.update(barcodes[1], (value) {
-    //     List<String> li = value;
-    //     li.add(barcodes[0]);
-    //     return li;
-    //   }, ifAbsent: () {
-    //     return data[barcodes[1]] = [barcodes[0]];
-    //   });
-    // }
-    // List<List<String>> result = [];
-    // data.forEach((key, value) {
-    //   List<String> temp = [key];
-    //   temp.addAll(value);
-    //   result.add(temp);
-    // });
+    List<String> rows = textEditingController.text.split('\n');
+    List<List<String>> result = rows.map((e) => e.split('   ')).toList();
     return result;
   }
 }
