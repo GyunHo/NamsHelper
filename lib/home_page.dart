@@ -16,9 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController textEditingController = TextEditingController();
   final _receivePort = ReceivePort();
-
-  DateTime? currentBackPressTime;
-  int requiredMilliSeconds = 500;
   bool canPop = false;
 
   @override
