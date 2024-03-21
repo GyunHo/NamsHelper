@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+import 'package:overlay_nams/scan_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +46,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading:  TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ScanPage(),
+              ),
+            );
+          },
+          child: const Text("바코드 스캔"),
+        ),
         title: const Text('Ctrl CV'),
         centerTitle: true,
       ),
@@ -110,6 +121,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: const Text("오버레이 끄기"),
                     ),
+
                   ],
                 ),
               ),

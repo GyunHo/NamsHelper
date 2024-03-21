@@ -1,10 +1,19 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:overlay_nams/home_page.dart';
 import 'package:overlay_nams/overlay_page.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+void main() async {
+  runZonedGuarded(() async {
+    DartPluginRegistrant.ensureInitialized();
+    WidgetsFlutterBinding.ensureInitialized();
+
+    runApp(const MyApp());
+  }, (e, stacktrace) async {
+    debugPrint('$e, $stacktrace');
+  });
 }
 
 @pragma("vm:entry-point")
