@@ -48,12 +48,15 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
+              onPressed: () async {
+                List<String>? result = await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const ScanPage(),
                   ),
                 );
+                if(result?.isNotEmpty??false){
+
+                }
               },
               icon: const Icon(Icons.camera_alt))
         ],
