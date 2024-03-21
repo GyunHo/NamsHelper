@@ -46,16 +46,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:  TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const ScanPage(),
-              ),
-            );
-          },
-          child: const Text("바코드 스캔"),
-        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ScanPage(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.camera_alt))
+        ],
         title: const Text('Ctrl CV'),
         centerTitle: true,
       ),
@@ -121,7 +122,6 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: const Text("오버레이 끄기"),
                     ),
-
                   ],
                 ),
               ),
